@@ -1,0 +1,33 @@
+# action.yaml
+name: 'Release notes generator (with AI 🤖)'
+description: 'Generate release notes using AI'
+inputs:
+  openai_token:
+    description: 'OpenAI API token'
+    required: true
+  prompt:
+    description: 'Prompt for the AI model'
+    required: true
+    default: 'What are the changes in this release?'
+outputs:
+  release_notes:
+    description: 'Release notes'
+    value: ${{ steps.release-generator.outputs.release_notes }}
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install and configure Poetry
+      uses: snok/install-poetry@v1
+    - name: Pass Inputs to Shell
+      run: |
+          echo "OPENAI_TOKEN=${{ inputs.openai_token }}" >> $GITHUB_ENV
+          echo "PROMPT=${{ inputs.prompt }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Generate release notes
+      id: release-generator
+      run: $GITHUB_ACTION_PATH/main.sh
+      shell: bash

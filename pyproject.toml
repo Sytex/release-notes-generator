@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "release-notes-generator"
+version = "0.1.0"
+description = ""
+authors = ["lmbringas <lm.bringas98@gmail.com>"]
+readme = "README.md"
+packages = [{include = "release_notes_generator"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+openai = "^1.40.0"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
